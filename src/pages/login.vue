@@ -117,7 +117,7 @@ export default {
   created() {
     this.$storage.local.remove('sessionId')
     if(this.$device.isWechat && !this.$route.query.code){
-      this.$mui.toast('微信授权失败')
+      // this.$mui.toast('微信授权失败')
       // this.$server.getGrantUrl('/login', this.$route.query)
     }
   },

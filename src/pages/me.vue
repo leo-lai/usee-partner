@@ -6,7 +6,7 @@
     <nav-tab></nav-tab>
     <div class="mui-content">
       <div class="l-card-user">
-        <div class="l-flex-hc l-padding l-border-b">
+        <div class="l-flex-hc l-padding l-border-b" @click="$link('/me/info')">
           <div class="l-avatar l-margin-r" :style="{'background-image': 'url('+ (userInfo.avatar || defaultAvatar) +')'}"></div>
           <div class="l-rest">
             <h3>{{userInfo.agentName}}</h3>
@@ -119,7 +119,7 @@ export default {
       this.$server.wxShare({
         title: '我为U视喷喷代言',
         desc: '喷3次，停3秒，眨3下，U视喷喷9秒靓眼。',
-        link: this.$server.getHost() + '/shop?_qruc=' + this.userInfo.userCode,
+        link: this.$server.getShopHost() + '/shop?_qruc=' + this.userInfo.userCode,
         imgUrl: this.userInfo.avatar
       }).catch((wx)=>{
         // this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{

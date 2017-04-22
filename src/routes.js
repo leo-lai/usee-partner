@@ -7,6 +7,7 @@ import orderList      from './pages/order-list'
 import orderInfo      from './pages/order-info'
 import orderEvaluate  from './pages/order-evaluate'
 import me             from './pages/me'
+import meInfo         from './pages/me-info'
 import login          from './pages/login'
 import register       from './pages/register'
 import pwd            from './pages/pwd'
@@ -20,6 +21,8 @@ import withdrawals    from './pages/withdrawals'
 import payResult      from './pages/pay-result'
 import antifake       from './pages/antifake'
 import income         from './pages/income'
+import incomeDetails  from './pages/income-details'
+import stock          from './pages/stock'
 
 const routes = [
   { 
@@ -46,28 +49,38 @@ const routes = [
     component: me
   },
   {
+    path: '/me/info',
+    meta: { title: '个人信息'},
+    component: meInfo
+  },
+  {
     path: '/login',
-    meta: { title: '登录'},
+    meta: { title: '登录', auth: false},
     component: login
   },
   {
     path: '/register',
-    meta: { title: '注册'},
+    meta: { title: '注册', auth: false},
     component: register
   },
   {
     path: '/forgot',
-    meta: { title: '找回密码'},
+    meta: { title: '找回密码', auth: false},
+    component: pwd
+  },
+  {
+    path: '/me/pwd',
+    meta: { title: '更改密码'},
     component: pwd
   },
   {
     path: '/shop/car',
-    meta: { title: '购物车', auth: true},
+    meta: { title: '购物车'},
     component: shopCar
   },
   {
     path: '/shopcar',
-    meta: { title: '购物车', mainPage: true, auth: true},
+    meta: { title: '购物车', mainPage: true},
     component: shopCar
   },
   {
@@ -77,37 +90,37 @@ const routes = [
   },
   {
     path: '/shop/order/create',
-    meta: { title: '确认订单', auth: true},
+    meta: { title: '确认订单'},
     component: orderCreate
   },
   {
     path: '/order/list',
-    meta: { title: '我的订单', auth: true},
+    meta: { title: '我的订单'},
     component: orderList
   },
   {
     path: '/order/info/:id',
-    meta: { title: '订单详情', auth: true},
+    meta: { title: '订单详情'},
     component: orderInfo
   },
   {
     path: '/order/evaluate',
-    meta: { title: '订单评价', auth: true},
+    meta: { title: '订单评价'},
     component: orderEvaluate
   },
   {
     path: '/address/add',
-    meta: { title: '新增收货地址', auth: true},
+    meta: { title: '新增收货地址'},
     component: addressInfo
   },
   {
     path: '/address/edit/:id',
-    meta: { title: '编辑收货地址', auth: true},
+    meta: { title: '编辑收货地址'},
     component: addressInfo
   },
   {
     path: '/pay',
-    meta: { title: '支付信息', auth: true},
+    meta: { title: '支付信息'},
     component: pay
   },
   {
@@ -117,27 +130,27 @@ const routes = [
   },
   {
     path: '/me/account',
-    meta: { title: '我的账户', auth: true},
+    meta: { title: '我的账户'},
     component: account
   },
   {
     path: '/me/account/withdrawals',
-    meta: { title: '提现申请', auth: true},
+    meta: { title: '提现申请'},
     component: withdrawals
   },
   {
     path: '/me/rebate',
-    meta: { title: '我的返利', auth: true},
+    meta: { title: '我的返利'},
     component: rebate
   },
   {
     path: '/me/customer',
-    meta: { title: '我的客户', auth: true},
+    meta: { title: '我的客户'},
     component: customer
   },
   {
     path: '/me/qrcode',
-    meta: { title: '我的二维码', auth: true},
+    meta: { title: '我的二维码'},
     component: qrcode
   },
   {
@@ -149,6 +162,16 @@ const routes = [
     path: '/income',
     meta: { title: '累计收益'},
     component: income
+  },
+  {
+    path: '/income/details',
+    meta: { title: '累计收益'},
+    component: incomeDetails
+  },
+  {
+    path: '/stock',
+    meta: { title: '我的库存'},
+    component: stock
   },
 
 ]

@@ -5,7 +5,7 @@
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
     <div class="mui-content">
-      <template v-if="userInfo.agentId == 1">
+      <template v-if="userInfo.agentId == 2">
         <div class="l-card-count l-text-center">
           <p class="l-fs-s">&nbsp;累计返利</p>  
           <p class="l-fs-xl"><b class="l-icon">&#xe6cb;</b>{{totalAmount.toFixed(2)}}</p>

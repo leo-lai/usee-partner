@@ -13,13 +13,13 @@
             <p class="l-fs-m"><i class="l-icon l-margin-r-s">&#xe9cb;</i>累计收益</p>
           </div>
         </router-link>
-        <a class="_item">
+        <router-link class="_item" to="/stock">
           <img src="~assets/images/layout-005.jpg" alt="">
           <div class="_inner l-flex-vhc">
             <p class="l-fs-xl">{{indexData.goodShok}}</p>
             <p class="l-fs-m"><i class="l-icon l-margin-r-s">&#xe64e;</i>剩余库存</p>
           </div>
-        </a>
+        </router-link>
         <router-link class="_item" to="/me/customer">
           <img src="~assets/images/layout-006.jpg" alt="">
           <div class="_inner l-flex-vhc">
@@ -58,7 +58,7 @@ export default {
 <style scoped lang="less">
 .l-index-menu{
   ._item{
-    position: relative; text-align: center; display: block; margin: 0.75rem;
+    position: relative; text-align: center; display: block; margin: 0.75rem; min-height: 5.75rem;
   }
   ._item:after{
     position: absolute; top:0; left: 0; bottom: 0; right: 0; z-index: 1;

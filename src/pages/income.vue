@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="l-income-month l-flex-hc l-link-arrow">
+      <div class="l-income-month l-flex-hc l-link-arrow" @click="$link('/income/details')">
         <div class="l-border-r _month">
           <b>{{month}}</b>月收益
         </div>
@@ -60,7 +60,7 @@ export default {
 <style scoped lang="less">
 .l-income-count{
   background: linear-gradient(135deg, #1e1716, #4c3530, #403534); color: #fff; text-align: center;
-  padding: 1rem 0;
+  padding: 1rem 0; min-height: 5.3rem;
 }
 .l-income-month{
   padding: 1rem 0;

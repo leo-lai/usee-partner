@@ -89,139 +89,6 @@ const _http = {
   }
 }
 
-// 分页数据类
-class List {
-  constructor(type, params = [], method = 'GET') {
-    this.type = type
-    this.method = method
-    this.params = params // 异步发送数据
-
-    this.isLoading = false // 正在请求数据
-    this.isNull = false // 表示后台已无数据返回，无需再发送请求
-    this.isAjax = false // 是否已请求过数据
-    this.alldata = [] // 累计分页已返回数据
-    this.data = [] // 当前分页数据
-    this.page = 1 // 当前页数
-    this.row = 10 // 条数
-
-    this.beforeAjax = utils.noop
-    this.callback = utils.noop
-  }
-  init() {
-    this.isAjax = false
-    this.isNull = false
-    this.data = []
-    this.alldata = []
-    this.goto(1)
-  }
-  next() {
-    if (!this.isLoading && !this.isNull) {
-      ++this.page
-      this.ajax()
-    }
-    return this
-  }
-  prev() {
-    if (!this.isLoading && this.page > 1) {
-      this.page = Math.min(--this.page, 1)
-      this.ajax()
-    }
-    return this
-  }
-  goto(index = 1) {
-    if (!this.isLoading && !this.isNull) {
-      this.page = index
-      this.ajax()
-    }
-    return this
-  }
-  ajax() {
-    if (this.isLoading || this.isNull) {
-      return this }
-
-    let url = ''
-    switch (this.type) {
-      case 'Order': // 订单列表
-        url = '/Member/order/list'
-        break
-      case 'UserCombos': // 用户套餐
-        url = '/Member/combo/my'
-        break
-      case 'UserCoupons': // 用户优惠券
-        url = '/Member/coupon/my'
-        break
-      case 'Coupons': // 优惠券中心
-        url = '/Member/coupon/list'
-        break
-      case 'Combos': // 套餐年卡
-        url = '/Member/combo/list'
-        break
-      case 'OrderHistory': // 消费记录
-        url = '/Member/order/his_order'
-        break
-      case 'AgentRecord': // 分销记录
-        url = '/Member/user/rebate_info'
-        break
-      case 'HolderDrawal': // 提现记录
-        url = '/Member/holder/drawal_list'
-        break
-      case 'HolderMember': // 我的人脉
-        url = '/Member/holder/member_list'
-        break
-      case 'HolderRebate': // 分红记录
-        url = '/Member/holder/rebate_list'
-        break
-      case 'Goods': // 商品列表
-        url = '/Member/shopping/goods_list'
-        break
-      case 'Store': // 门店列表
-        url = '/Member/store/lbs_list'
-        break
-    }
-
-    this.isLoading = true
-    this.beforeAjax()
-
-    let promise = null
-    switch (this.method) {
-      case 'GET':
-        url += `/${this.page}/${this.row}`
-        if (utils.isArray(this.params) && this.params.length > 0) {
-          url += '/' + this.params.join('/')
-        }
-        promise = _http.get(url)
-        break
-      case 'POST':
-        if (!utils.isPlainObject(this.params)) this.params = {}
-        this.params.page = this.page
-        this.params.row = this.row
-        promise = _http.post(url, this.params)
-        break
-    }
-
-    promise.then(({ list, obj }) => {
-      this.isAjax = true
-      this.isLoading = false
-
-      this.data = list
-
-      if (list.length === 0 || list.length < this.row) {
-        this.isNull = true
-      }
-
-      this.alldata = this.alldata.concat(list)
-      this.callback(this.alldata, obj)
-    }).catch((error) => {
-      this.isAjax = true
-      this.isNull = false
-      this.isLoading = false
-      this.callback(this.alldata)
-    })
-
-    return promise
-  }
-}
-
 const _server = {
   getShopHost(){
     return shopHost
@@ -625,7 +492,7 @@ const _server = {
   logout(tipText = '请先登录', toUrl = window.location.pathname) {
     let sessionId = storage.local.get('sessionId')
     if (sessionId) {
-      _http.post('/shopUsers/loginOut', { sessionId })
+      _http.post('/agentInfo/loginOut', { sessionId })
     }
 
     // 清除缓存
@@ -634,13 +501,13 @@ const _server = {
     storage.local.remove('buy_slted_address')
 
     tipText && mui.toast(tipText)
-    if (utils.device.isWechat) {
-      // 避免登录后跳转到登录页面
-      toUrl = toUrl === '/login' ? '/index' : toUrl
-      window.location.replace(_server.getGrantUrl('/login', { to: toUrl }))
-    } else {
-      Vue._link(`/login?to=${toUrl}`, 'page-in')
-    }
+    // if (utils.device.isWechat) {
+    //   // 避免登录后跳转到登录页面
+    //   toUrl = toUrl === '/login' ? '/index' : toUrl
+    //   window.location.replace(_server.getGrantUrl('/login', { to: toUrl }))
+    // } else {
+      Vue._link(`/login?to=${toUrl}`, 'page-in')  
+    // }
   },
   // 检测登录
   checkLogin() {
@@ -658,22 +525,60 @@ const _server = {
   },
   // 修改密码、找回密码
   changePwd(formData) {
-    return _http.post('/shopUsers/forgetPassword', formData).then((response) => {
+    return _http.post('/agentInfo/forgetPassword', formData).then((response) => {
       !response.data && (response.data = {})
       return response
     })
   },
   // 首页数据
   getIndexData() {
-    return _http.post('/agentInfo/index').then((response) => {
-      !response.data && (response.data = {})
-      return response
+    return new Promise((resolve)=>{
+      let indexData = storage.local.get('indexData')
+      if(indexData){
+        resolve({data: indexData})
+      }else{
+        _http.post('/agentInfo/index').then((response) => {
+          storage.local.set('indexData', response.data, 1000*60*5)
+          !response.data && (response.data = {})
+          resolve(response)
+        })
+      }
     })
+
   },
   getIncome() {
     return _http.post('/agentInfo/accumulated').then((response) => {
       !response.data && (response.data = {})
       return response
+    })
+  },
+  getIncomeDetails(month = '', page = 1, rows = 10) {
+    return _http.post('/shopUsers/rebateRecord', {
+      month
+    }).then((response) => {
+      !response.data && (response.data = {})
+      response.data.rows = rows
+      return response
+    })
+  },
+  getStock() {
+    return _http.post('/agentInfo/residueStock').then((response) => {
+      !response.data && (response.data = [])
+      return response
+    })
+  },
+  getAgentInfo() {
+    return new Promise((resolve)=>{
+      let agentInfo = storage.local.get('agentInfo')
+      if(agentInfo){
+        resolve({data: agentInfo})
+      }else{
+        _http.post('/agentInfo/agentInfo').then((response) => {
+          !response.data && (response.data = {})
+          storage.local.set('agentInfo', response.data, 1000*60*30)
+          resolve(response)
+        })
+      }
     })
   },
   user: {
@@ -728,7 +633,7 @@ const _server = {
       })
     },
     getCustomer(isSuccess = 1, page = 1, rows = 10) {
-      return _http.post('/shopUsers/myCustomer', {
+      return _http.post('/agentInfo/myCustomer', {
         isSuccess, page, rows
       }).then((response) => {
         !response.data && (response.data = {})

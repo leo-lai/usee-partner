@@ -46,8 +46,14 @@ router.beforeEach((to, from, next) => {
   if(utils.url.getArgs()['_qruc']){
     storage.session.set('bind_qrcode', utils.url.getArgs()['_qruc'])
   }
-  if(to.meta.auth && !storage.local.get('sessionId')){
-    server.logout()  
+
+  let auth = to.meta.auth
+  if(auth == undefined){
+    auth = true
+  }
+
+  if(auth && !storage.local.get('sessionId') && to.path !== 'login'){
+    server.logout() 
     next(false)
     return
   }

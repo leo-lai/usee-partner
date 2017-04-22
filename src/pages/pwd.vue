@@ -65,8 +65,13 @@ export default {
       this.submiting = true
       this.$mui.showWaiting()
       this.$server.changePwd(this.formData).then(({data})=>{
-        this.$mui.toast('新密码重置成功')
-        this.$link('/login', 'page-out')
+        if(this.$route.path == '/me/pwd'){
+          this.$mui.toast('修改密码成功')  
+          this.$router.back()
+        }else{
+          this.$mui.toast('新密码重置成功')
+          this.$link('/login', 'page-out')  
+        }
       }).finally(()=>{
         this.submiting = false
         this.$mui.hideWaiting()
