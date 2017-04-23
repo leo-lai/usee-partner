@@ -14,9 +14,11 @@
           <div class="l-rest">
             <h3>{{item.typeName}}</h3>
             <p class="l-text-gray l-fs-s">商品剩余数量：</p>
-            <p><span class="l-text-hot l-fs-l">{{item.goodsStock}}</span></p>
           </div>
-          <img class="_thumb" :src="item.image" alt="">
+          <div>
+            <p><span class="l-text-hot l-fs-xl">{{item.goodsStock}}</span></p>
+          </div>
+          <!-- <img class="_thumb" :src="item.image" alt=""> -->
         </div>
       </div>
       <div class="l-loading-inline" v-show="loading"><i class="mui-spinner"></i><span class="_txt">加载中...</span></div>

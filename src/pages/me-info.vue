@@ -28,9 +28,9 @@
           <span class="l-rest">所在单位</span>
           <span class="l-text-gray">{{agentInfo.agentCompany}}</span>
         </li>
-        <li class="mui-table-view-cell l-flex-hc">
+        <li class="mui-table-view-cell l-flex-h">
           <span class="l-rest">我的推荐码</span>
-          <span class="l-text-gray">{{agentInfo.agentCode}}</span>
+          <span class="l-text-gray _right-val">{{agentInfo.agentCode}}</span>
         </li>
         <li class="mui-table-view-cell l-flex-hc">
           <span class="l-rest">关联合伙人</span>
@@ -79,6 +79,7 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.mui-table-view-cell ._right-val{width: 60%; text-align: right; word-break: break-all; line-height: 1.2; padding: 0.2rem 0;}
 .l-mark{
   position: relative;
   ._inner{

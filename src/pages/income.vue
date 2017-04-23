@@ -7,11 +7,11 @@
     <div class="mui-content">
       <div class="l-income-count l-flex-hc">
         <div class="l-rest">
-          <h3 class="l-fs-xl">{{income.accumulatedIncome}}</h3>
+          <h3 class="l-fs-xl">{{income.accumulatedIncome || 0}}</h3>
           <p class="l-fs-s l-text-gray">累计收益(元)</p>
         </div>
         <div class="l-rest">
-          <h3 class="l-fs-xl">{{income.marketValue}}</h3>
+          <h3 class="l-fs-xl">{{income.marketValue || 0}}</h3>
           <p class="l-fs-s l-text-gray">总市值(元)</p>
         </div>
       </div>
@@ -21,7 +21,7 @@
           <b>{{month}}</b>月收益
         </div>
         <div class="l-rest l-margin-l">
-          <b class="l-text-warn l-fs-xl">+{{income.amount}}</b>
+          <b class="l-text-warn l-fs-xl">+{{income.amount || 0}}</b>
         </div>
         <div class="l-text-gray">
           <span class="l-fs-s">收益明细</span>

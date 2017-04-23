@@ -9,21 +9,21 @@
         <router-link class="_item" to="/income">
           <img src="~assets/images/layout-004.jpg" alt="">
           <div class="_inner l-flex-vhc">
-            <p class="l-fs-xl"><b class="l-icon">&#xe6cb;</b>{{indexData.accumulatedIncome}}</p>
+            <p class="l-fs-xl"><b class="l-icon">&#xe6cb;</b>{{indexData.accumulatedIncome || 0}}</p>
             <p class="l-fs-m"><i class="l-icon l-margin-r-s">&#xe9cb;</i>累计收益</p>
           </div>
         </router-link>
         <router-link class="_item" to="/stock">
           <img src="~assets/images/layout-005.jpg" alt="">
           <div class="_inner l-flex-vhc">
-            <p class="l-fs-xl">{{indexData.goodShok}}</p>
+            <p class="l-fs-xl">{{indexData.goodShok || 0}}</p>
             <p class="l-fs-m"><i class="l-icon l-margin-r-s">&#xe64e;</i>剩余库存</p>
           </div>
         </router-link>
         <router-link class="_item" to="/me/customer">
           <img src="~assets/images/layout-006.jpg" alt="">
           <div class="_inner l-flex-vhc">
-            <p class="l-fs-xl">{{indexData.bindingNumber}}</p>
+            <p class="l-fs-xl">{{indexData.bindingNumber || 0}}</p>
             <p class="l-fs-m"><i class="l-icon l-margin-r-s">&#xe8fe;</i>我的客户</p>
           </div>
         </router-link>

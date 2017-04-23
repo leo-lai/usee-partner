@@ -8,7 +8,7 @@
       <template v-if="userInfo.agentId == 2">
         <div class="l-card-count l-text-center">
           <p class="l-fs-s">&nbsp;累计有效客户</p>  
-          <p class="l-fs-xl">{{customerNum}}</p>
+          <p class="l-fs-xl">{{bindingNumber}}</p>
         </div>
         <div class="l-padding l-fs-s">
           说明：客户扫码登录后需要购买指定商品才能与您成功绑定关系，已经被绑定的客户无法再次被绑定。
@@ -61,7 +61,7 @@ export default {
       list0: [],
       list1: [],
       pages: [1, 1],
-      customerNum: 0,
+      bindingNumber: 0,
       tabIndex: 1
     }
   },
@@ -83,7 +83,7 @@ export default {
     onInfinite() {
       this.$server.user.getCustomer(this.tabIndex, this.page)
       .then(({data})=>{
-        let returnList = data.relationshi
+        let returnList = data.relationship
         let list = this['list' + this.tabIndex]
     
         list = list.concat(returnList)
@@ -109,8 +109,7 @@ export default {
           list.complete = true
           this.$refs.infinite.$emit('$InfiniteLoading:complete')
         }
-
-        this.customerNum = data.customerNum || 0
+        this.bindingNumber = data.bindingNumber || 0
         this['list' + this.tabIndex] = list
 
       }).catch(()=>{

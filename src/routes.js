@@ -1,24 +1,16 @@
 import index          from './pages/index'
-import shop           from './pages/shop'
-import shopCar        from './pages/shop-car'
-import goodsInfo      from './pages/goods-info'
-import orderCreate    from './pages/order-create'
 import orderList      from './pages/order-list'
 import orderInfo      from './pages/order-info'
-import orderEvaluate  from './pages/order-evaluate'
 import me             from './pages/me'
 import meInfo         from './pages/me-info'
 import login          from './pages/login'
-import register       from './pages/register'
 import pwd            from './pages/pwd'
 import addressInfo    from './pages/address-info'
-import pay            from './pages/pay'
 import rebate         from './pages/rebate'
 import account        from './pages/account'
 import customer       from './pages/customer'
 import qrcode         from './pages/qrcode'
 import withdrawals    from './pages/withdrawals'
-import payResult      from './pages/pay-result'
 import antifake       from './pages/antifake'
 import income         from './pages/income'
 import incomeDetails  from './pages/income-details'
@@ -39,11 +31,6 @@ const routes = [
     component: index
   },
   {
-    path: '/shop',
-    meta: { title: '商城', mainPage: true },
-    component: shop
-  },
-  {
     path: '/me',
     meta: { title: '个人中心', mainPage: true },
     component: me
@@ -59,11 +46,6 @@ const routes = [
     component: login
   },
   {
-    path: '/register',
-    meta: { title: '注册', auth: false},
-    component: register
-  },
-  {
     path: '/forgot',
     meta: { title: '找回密码', auth: false},
     component: pwd
@@ -72,26 +54,6 @@ const routes = [
     path: '/me/pwd',
     meta: { title: '更改密码'},
     component: pwd
-  },
-  {
-    path: '/shop/car',
-    meta: { title: '购物车'},
-    component: shopCar
-  },
-  {
-    path: '/shopcar',
-    meta: { title: '购物车', mainPage: true},
-    component: shopCar
-  },
-  {
-    path: '/shop/goods/info/:id',
-    meta: { title: '商品详情'},
-    component: goodsInfo
-  },
-  {
-    path: '/shop/order/create',
-    meta: { title: '确认订单'},
-    component: orderCreate
   },
   {
     path: '/order/list',
@@ -104,11 +66,6 @@ const routes = [
     component: orderInfo
   },
   {
-    path: '/order/evaluate',
-    meta: { title: '订单评价'},
-    component: orderEvaluate
-  },
-  {
     path: '/address/add',
     meta: { title: '新增收货地址'},
     component: addressInfo
@@ -117,16 +74,6 @@ const routes = [
     path: '/address/edit/:id',
     meta: { title: '编辑收货地址'},
     component: addressInfo
-  },
-  {
-    path: '/pay',
-    meta: { title: '支付信息'},
-    component: pay
-  },
-  {
-    path: '/pay/result',
-    meta: { title: '支付结果'},
-    component: payResult
   },
   {
     path: '/me/account',

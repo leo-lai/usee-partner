@@ -27,7 +27,7 @@
         <tbody>
           <tr v-for="item in list">
             <td>
-              <p>{{item.goodsName}}</p>
+              <p>{{rebateRecordType[item.rebateRecordType]}}</p>
               <p>{{item.orderCode}}</p>
               <p class="l-text-ok" v-if="item.rebateRecordState == 1">已返利</p>
               <p class="l-text-warn" v-else>返利中</p>
@@ -56,6 +56,7 @@ export default {
   },
   data () {
     return {
+      rebateRecordType: ['','商城销售返点','销售额外奖励','区域管理返点','集团分红','推荐区域返点','邮寄直接返点'],
       month,
       loading: false,
       totalAmount: 0,
@@ -70,7 +71,7 @@ export default {
       this.$refs.infinite.$emit('$InfiniteLoading:reset')
     },
     onInfinite() {
-      this.$server.getIncomeDetails(this.month)
+      this.$server.getIncomeDetails(this.month, this.page)
       .then(({data})=>{
         let returnList = data.rebateRecords
         this.totalAmount = (data.totalAmount || 0).toFixed(2)

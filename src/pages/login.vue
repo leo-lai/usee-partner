@@ -107,6 +107,7 @@ export default {
       this.$server.login(this.loginType, this.formData).then(({data})=>{
         this.$mui.toast('登录成功')
         this.$storage.local.set('sessionId', data.sessionId)
+        this.$storage.local.set('userInfo', data)
         this.$router.replace('/index' || this.$route.query.to)
       }).finally(()=>{
         this.submiting = false

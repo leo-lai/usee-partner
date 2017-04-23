@@ -21,8 +21,8 @@
             <p class="l-fs-l">{{(userInfo.account || 0).toFixed(2)}} 元</p>
             <p class="l-fs-s">账户余额</p>
           </div>
-          <div class="l-rest">
-            <p class="l-fs-l">{{userInfo.customerNum}}</p>
+          <div class="l-rest" @click="$link('/me/customer', 'page-in')">
+            <p class="l-fs-l">{{userInfo.bindingNumber || 0}}</p>
             <p class="l-fs-s">我的客户</p>
           </div>
         </div>
@@ -54,7 +54,9 @@ export default {
     return {
       loading: false,
       defaultAvatar: require('assets/images/avatar.jpg'),
-      userInfo: {},
+      userInfo: {
+        bindingNumber: 0
+      },
       qrcodeObj: {},
       qrcodeImg: ''
     }
@@ -115,6 +117,10 @@ export default {
     this.loading = true
     this.$server.user.getInfo().then(({data})=>{
       this.userInfo = data
+
+      this.$server.user.getCount().then(({data})=>{
+        this.userInfo = Object.assign({}, this.userInfo, data)
+      })
       // 分享授权
       this.$server.wxShare({
         title: '我为U视喷喷代言',

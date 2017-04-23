@@ -533,16 +533,16 @@ const _server = {
   // 首页数据
   getIndexData() {
     return new Promise((resolve)=>{
-      let indexData = storage.local.get('indexData')
-      if(indexData){
-        resolve({data: indexData})
-      }else{
+      // let indexData = storage.local.get('indexData')
+      // if(indexData){
+      //   resolve({data: indexData})
+      // }else{
         _http.post('/agentInfo/index').then((response) => {
           storage.local.set('indexData', response.data, 1000*60*5)
           !response.data && (response.data = {})
           resolve(response)
         })
-      }
+      // }
     })
 
   },
@@ -553,8 +553,8 @@ const _server = {
     })
   },
   getIncomeDetails(month = '', page = 1, rows = 10) {
-    return _http.post('/shopUsers/rebateRecord', {
-      month
+    return _http.post('/agentInfo/rebateRecord', {
+      month, page, rows
     }).then((response) => {
       !response.data && (response.data = {})
       response.data.rows = rows
@@ -582,24 +582,33 @@ const _server = {
     })
   },
   user: {
+    getCount() {
+      return _http.post('/agentInfo/center').then((response) => {
+        !response.data && (response.data = {})
+        return response
+      })
+    },
     getInfo(remote) {
       return new Promise((resolve)=>{
-        if(!_server.checkLogin()){
-          resolve({data: {}})
-          return
-        }
+        let userInfo = storage.local.get('userInfo') || {}
+        userInfo.avatar = utils.image.wxHead(userInfo.image)
+        resolve({data:userInfo})
+        // if(!_server.checkLogin()){
+        //   resolve({data: {}})
+        //   return
+        // }
 
-        let userInfo = storage.local.get('userInfo')
-        if(!remote && userInfo){
-          resolve({data: userInfo})
-        }else{
-          _http.post('/shopUsers/refresh').then((response) => {
-            !response.data && (response.data = {})
-            response.data.avatar = utils.image.wxHead(response.data.image)
-            storage.local.set('userInfo', response.data, 1000*60*15)
-            resolve(response)
-          })
-        }
+        // let userInfo = storage.local.get('userInfo')
+        // if(!remote && userInfo){
+        //   resolve({data: userInfo})
+        // }else{
+        //   _http.post('/shopUsers/refresh').then((response) => {
+        //     !response.data && (response.data = {})
+        //     response.data.avatar = utils.image.wxHead(response.data.image)
+        //     storage.local.set('userInfo', response.data, 1000*60*15)
+        //     resolve(response)
+        //   })
+        // }
       })
     },
     getBankInfo() {
