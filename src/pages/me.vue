@@ -67,7 +67,8 @@ export default {
       if(!qrcodeCanvas) return ''
 
       const type = 'image/png'
-      let imageData = qrcodeCanvas.toDataURL(type).replace(type, 'image/octet-stream') || ''
+      // let imageData = qrcodeCanvas.toDataURL(type).replace(type, 'image/octet-stream') || ''
+      let imageData = qrcodeCanvas.toDataURL(type) || ''
       this.$storage.local.set('qrcode_img', imageData, 1000*60*30)
       return imageData
     },

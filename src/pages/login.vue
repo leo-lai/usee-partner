@@ -7,7 +7,7 @@
     <div class="mui-content l-bg-white">
       <div class="l-login-title">
         <p><span>欢迎登录</span></p>
-        <p>U视一号<i class="l-text-warn">™</i>合伙人平台</p>
+        <p>U视一号<i class="l-text-warn">™</i>合伙人管理平台</p>
       </div>
       <!-- <div class="l-login-tab">
         <span :class="{'_active': loginType === 2}" @click="sltType(2)">短信登录</span>

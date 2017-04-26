@@ -4,19 +4,18 @@ import { storage, utils } from 'assets/js/utils'
 
 // 测试
 let appid = 'wxb022237ad49ef61f'
-// let baseUrl = 'http://119.23.30.245:8080/useeproject/interface'
-// let baseUrl = 'http://apitest.deyila.cn/useeproject/interface'
-let baseUrl = 'http://api.deyila.cn/useeproject/interface'
+let baseUrl = 'http://apitest.deyila.cn/useeproject/interface'
 let qrcode = require('assets/images/usee-test.jpg')
-let shopHost = 'http://shop.deyila.cn'
+let shopHost = 'http://shoptest.deyila.cn'
 
 // 正式
-if (['h5.usee1.com.cn'].indexOf(window.location.host) > -1) {
-  // appid = 'wxc81b31922070b7ae'
+if (['h5.usee1.com.cn', 'h5.ushiyihao.com', 'shoptest.deyila.cn'].indexOf(window.location.host) > -1) {
   // baseUrl = 'https://api.usee1.com.cn/useeproject/interface'
-  baseUrl = 'https://bird.ioliu.cn/v1?url=' + baseUrl
-  shopHost = 'https://h5.usee1.com.cn'
-  // qrcode = require('assets/images/usee-online.jpg')
+  // baseUrl = 'https://bird.ioliu.cn/v1?url=' + baseUrl
+  appid = 'wxc81b31922070b7ae'
+  baseUrl = 'http://apitest.deyila.cn/useeproject/interface'
+  qrcode = require('assets/images/usee-online.jpg')
+  shopHost = 'http://shoptest.deyila.cn'
 }
 
 const errorPromise = function(message = '') {

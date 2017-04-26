@@ -56,7 +56,7 @@ export default {
   },
   data () {
     return {
-      rebateRecordType: ['','商城销售返点','销售额外奖励','区域管理返点','集团分红','推荐区域返点','邮寄直接返点'],
+      rebateRecordType: ['','商城销售返点','销售额外奖励','区域管理返点','集团分红','推荐区域返点','邮寄直接返点', '成本返利'],
       month,
       loading: false,
       totalAmount: 0,

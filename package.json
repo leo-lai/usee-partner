@@ -1,7 +1,7 @@
 {
-  "name": "usee-shop",
+  "name": "usee-partner",
   "version": "1.0.0",
-  "description": "usee-shop",
+  "description": "usee-partner",
   "keywords": "webpack vue mui",
   "author": "leo-lai <leolai.mail@qq.com>",
   "private": true,
