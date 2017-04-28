@@ -9,7 +9,7 @@
         <div class="l-flex-hc l-padding l-border-b">
           <div @click="$link('/me/info', 'page-in')" class="l-avatar l-margin-r" :style="{'background-image': 'url('+ (userInfo.avatar || defaultAvatar) +')'}"></div>
           <div @click="$link('/me/info', 'page-in')" class="l-rest">
-            <h3>{{userInfo.agentName}}</h3>
+            <h3>{{userInfo.agentInfoName || userInfo.userName || userInfo.agentName}}</h3>
             <p class="l-fs-m">{{userInfo.phoneNumber}}</p>
           </div>
           <div @click="$link('/me/setting', 'page-in')" style="width: 5rem; text-align:right; padding:0.5rem 0;">
@@ -120,6 +120,7 @@ export default {
     this.loading = true
     this.$server.user.getInfo().then(({data})=>{
       this.userInfo = data
+      console.log(this.userInfo)
 
       this.$server.user.getCount().then(({data})=>{
         this.userInfo = Object.assign({}, this.userInfo, data)
