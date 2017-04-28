@@ -4,12 +4,12 @@ import { storage, utils } from 'assets/js/utils'
 
 // 测试
 let appid = 'wxb022237ad49ef61f'
-let baseUrl = 'http://apitest.deyila.cn/useeproject/interface'
+let baseUrl = 'http://api.deyila.cn/useeproject/interface'
 let qrcode = require('assets/images/usee-test.jpg')
-let shopHost = 'http://shoptest.deyila.cn'
+let shopHost = 'http://shop.deyila.cn'
 
 // 正式
-if (['h5.usee1.com.cn', 'h5.ushiyihao.com', 'shoptest.deyila.cn'].indexOf(window.location.host) > -1) {
+if (['partner.usee1.com.cn', 'partner.ushiyihao.com', 'partner.deyila.cn'].indexOf(window.location.host) > -1) {
   // baseUrl = 'https://api.usee1.com.cn/useeproject/interface'
   // baseUrl = 'https://bird.ioliu.cn/v1?url=' + baseUrl
   appid = 'wxc81b31922070b7ae'
@@ -649,20 +649,20 @@ const _server = {
         return response
       })
     },
-
-    bind(qrUserCode) {
-      qrUserCode = qrUserCode || storage.session.get('bind_qrcode') || ''
-      if(!qrUserCode) {
-        return errorPromise('没有检测到二维码')
-      }
-
-      if(!_server.checkLogin()){
-        return errorPromise('用户未登录') 
-      }
-
-      storage.local.set('bind_qrcode', qrUserCode)
-      return _http.post('/shopUsers/bindingCheck', { qrUserCode }).then((response) => {
+    notify(notify = 1) {
+      return _http.post('/agentInfo/notify', { notify }).then((response)=>{
+        if(response.data == 1){
+          storage.local.set('userInfo', Object.assign({}, storage.local.get('userInfo'), {notify: response.data}))
+        }
+        return response
+      })
+    },
+    resetWxInfo(code = '') {
+      return _http.post('/agentInfo/refreshCode', { code }).then((response) => {
         !response.data && (response.data = {})
+        response.data.avatar = utils.image.wxHead(response.data.image)
+        let userInfo = Object.assign({}, storage.local.get('userInfo'), response.data)
+        storage.local.set('userInfo',  userInfo, 1000*60*15)
         return response
       })
     }

@@ -47,7 +47,6 @@
       </ul>
       <div class="l-margin">
         <button type="button" class="mui-btn l-btn-main" @click="$link('/me/pwd', 'page-in')">更改密码</button>
-        <button type="button" class="mui-btn l-btn-white l-margin-t" @click="logout">退出登录</button>
       </div>
     </div>
   </div>

@@ -2,6 +2,7 @@ import index          from './pages/index'
 import orderList      from './pages/order-list'
 import orderInfo      from './pages/order-info'
 import me             from './pages/me'
+import meSetting      from './pages/me-setting'
 import meInfo         from './pages/me-info'
 import login          from './pages/login'
 import pwd            from './pages/pwd'
@@ -34,6 +35,11 @@ const routes = [
     path: '/me',
     meta: { title: '个人中心', mainPage: true },
     component: me
+  },
+  {
+    path: '/me/setting',
+    meta: { title: '系统设置'},
+    component: meSetting
   },
   {
     path: '/me/info',

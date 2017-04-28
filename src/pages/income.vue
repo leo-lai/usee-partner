@@ -5,14 +5,26 @@
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
     <div class="mui-content">
-      <div class="l-income-count l-flex-hc">
-        <div class="l-rest">
-          <h3 class="l-fs-xl">{{income.accumulatedIncome || 0}}</h3>
-          <p class="l-fs-s l-text-gray">累计收益(元)</p>
+      <div class="l-income-count">
+        <div class="l-flex-hc">
+          <div class="l-rest">
+            <h3 class="l-fs-l">{{income.allBackAmount | currency}}</h3>
+            <p class="l-fs-s l-text-gray">总收益(元)</p>
+          </div>
+          <div class="l-rest">
+            <h3 class="l-fs-l">{{income.marketValue | currency}}</h3>
+            <p class="l-fs-s l-text-gray">库存总值(元)</p>
+          </div>
         </div>
-        <div class="l-rest">
-          <h3 class="l-fs-xl">{{income.marketValue || 0}}</h3>
-          <p class="l-fs-s l-text-gray">总市值(元)</p>
+        <div class="l-flex-hc" style="border-top:0.05rem solid rgba(255, 255, 255, 0.1); margin-top:0.75rem; padding-top: 0.75rem;">
+          <div class="l-rest">
+            <h3 class="l-fs-l">{{income.accumulatedIncome | currency}}</h3>
+            <p class="l-fs-s l-text-gray">已返利金额(元)</p>
+          </div>
+          <div class="l-rest">
+            <h3 class="l-fs-l">{{income.readyAmount | currency}}</h3>
+            <p class="l-fs-s l-text-gray">待返利金额(元)</p>
+          </div>
         </div>
       </div>
 
@@ -21,7 +33,7 @@
           <b>{{month}}</b>月收益
         </div>
         <div class="l-rest l-margin-l">
-          <b class="l-text-warn l-fs-xl">+{{income.amount || 0}}</b>
+          <b class="l-text-warn l-fs-l">+{{income.amount | currency}}</b>
         </div>
         <div class="l-text-gray">
           <span class="l-fs-s">收益明细</span>

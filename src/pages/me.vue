@@ -6,19 +6,19 @@
     <nav-tab></nav-tab>
     <div class="mui-content">
       <div class="l-card-user">
-        <div class="l-flex-hc l-padding l-border-b" @click="$link('/me/info')">
-          <div class="l-avatar l-margin-r" :style="{'background-image': 'url('+ (userInfo.avatar || defaultAvatar) +')'}"></div>
-          <div class="l-rest">
+        <div class="l-flex-hc l-padding l-border-b">
+          <div @click="$link('/me/info', 'page-in')" class="l-avatar l-margin-r" :style="{'background-image': 'url('+ (userInfo.avatar || defaultAvatar) +')'}"></div>
+          <div @click="$link('/me/info', 'page-in')" class="l-rest">
             <h3>{{userInfo.agentName}}</h3>
             <p class="l-fs-m">{{userInfo.phoneNumber}}</p>
           </div>
-          <div>
+          <div @click="$link('/me/setting', 'page-in')" style="width: 5rem; text-align:right; padding:0.5rem 0;">
             <i class="mui-icon mui-icon-gear"></i>
           </div>
         </div>
         <div class="l-flex-hc l-text-center" style="padding: 1.6rem 0;">
           <div class="l-rest l-border-r">
-            <p class="l-fs-l">{{(userInfo.account || 0).toFixed(2)}} 元</p>
+            <p class="l-fs-l">{{userInfo.account | currency}} 元</p>
             <p class="l-fs-s">账户余额</p>
           </div>
           <div class="l-rest" @click="$link('/me/customer', 'page-in')">
@@ -55,7 +55,9 @@ export default {
       loading: false,
       defaultAvatar: require('assets/images/avatar.jpg'),
       userInfo: {
-        bindingNumber: 0
+        amount: 0,
+        bindingNumber: 0,
+        totalAmount: 0
       },
       qrcodeObj: {},
       qrcodeImg: ''

@@ -10,6 +10,12 @@ import server from './server'
 import routes from './routes'
 import App from './App'
 
+Vue.filter('currency', (value = '')=>{
+  let number = +(value+'').replace(/[^\d.]/g, '')
+  number = isNaN(number) ? 0 : number
+  return number.toMoney(2)
+})
+
 Vue.use(VueLazyload, {
   lazyComponent: true
 })
@@ -34,8 +40,8 @@ const eventHub = new Vue()
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes,
-	mode: 'history',
-	scrollBehavior (to, from, savedPosition) {
+  mode: 'history',
+  scrollBehavior (to, from, savedPosition) {
     // return 期望滚动到哪个的位置
     // console.log(to, from, savedPosition)
   }
@@ -46,14 +52,12 @@ router.beforeEach((to, from, next) => {
   if(utils.url.getArgs()['_qruc']){
     storage.session.set('bind_qrcode', utils.url.getArgs()['_qruc'])
   }
-
   let auth = to.meta.auth
-  if(auth == undefined){
-    auth = true
+  if(auth === undefined){
+    auth = true 
   }
-
-  if(auth && !storage.local.get('sessionId') && to.path !== 'login'){
-    server.logout() 
+  if(auth && !storage.local.get('sessionId')){
+    server.logout()
     next(false)
     return
   }
@@ -76,33 +80,34 @@ initHistory.index = 0
 let _history = storage.session.get('_history') || initHistory
 
 // 控制内联页面跳转
+// router.beforeEach((to, from, next) => {
+//   setTimeout(()=>{
+//     if(to.hash){
+//       if(/^#page-/.test(to.hash)){
+//         utils.removeClass(document.querySelector('.l-page._active'), '_active')
+//         utils.addClass(document.querySelector(to.hash), '_active') 
+//       }
+//     }else{
+//       // 默认第一个展示
+//       utils.addClass(document.querySelector('.l-page-group .l-page'), '_active')
+//     }
+//   }, 100)
+
+//   setTimeout(next, 30)
+// })
+
+// 控制页面间转场动画
 router.beforeEach((to, from, next) => {
   // 从内页返回 e.g. page/path#page-inner -> page/path
   if(from.hash && /^#page-/.test(from.hash) && to.path.indexOf(from.path) === 0 && router.currentRoute.meta.type !== 'to'){
     _pageBack(to.hash, router.currentRoute.meta[from.hash + '_title'] || router.currentRoute.meta.title)
+    return next()
   }
 
-  setTimeout(()=>{
-    if(to.hash){
-      if(/^#page-/.test(to.hash)){
-        utils.removeClass(document.querySelector('.l-page._active'), '_active')
-        utils.addClass(document.querySelector(to.hash), '_active') 
-      }
-    }else{
-      // 默认第一个展示
-      utils.addClass(document.querySelector('.l-page-group .l-page'), '_active')
-    }
-  }, 100)
-  setTimeout(next, 30)
-})
-
-// 控制页面间转场动画
-router.beforeEach((to, from, next) => {
   // 服务端渲染进入页面
   if(from.path === '/'){ 
     eventHub.$emit('APP-DIRECTION', 'page')
-    next()
-    return
+    return next()
   }
 
   // 倒序查找
@@ -133,7 +138,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // 首页进入内页
-  if(from.path === '/index'){
+  if(from.path.indexOf('/index') !== -1){
     direction = 'page-in'
   }
 
@@ -173,13 +178,25 @@ router.beforeEach((to, from, next) => {
     // $.showIndicator()
   }
 
-  setTimeout(next, 40)
+  setTimeout(next, 50)
 })
 
-router.afterEach((route) => {
-  utils.setTitle(route.meta.title)
+router.afterEach((to) => {
+  utils.setTitle(to.meta.title)
   _history.direction = ''
   storage.session.set('_history', _history)
+
+  setTimeout(()=>{
+    if(to.hash){
+      if(/^#page-/.test(to.hash)){
+        utils.removeClass(document.querySelector('.l-page._active'), '_active')
+        utils.addClass(document.querySelector(to.hash), '_active') 
+      }
+    }else{
+      // 默认第一个展示
+      utils.addClass(document.querySelector('.l-page-group .l-page'), '_active')
+    }
+  }, 50)
 })
 
 router.onReady(()=>{
@@ -191,7 +208,7 @@ router.onReady(()=>{
     mui(document).on('click', '._nav-reload', function(e){
       window.location.reload()
     })
-  }, 60) 
+  }, 120) 
 })
 
 Vue._router = router
@@ -217,16 +234,18 @@ function _pageTo(toPageId, title){
   let fromPage = document.querySelector('.l-page._active')
   let toPage = document.querySelector(toPageId)
   if(toPage){
-    utils.addClass(fromPage, 'page-in-leave-active')
-    utils.addClass(toPage, 'page-in-enter-active')
     if(title){
       router.currentRoute.meta[toPageId + '_title'] = router.currentRoute.meta.title
       router.currentRoute.meta.title = title
     }
     router.currentRoute.meta.type = 'to'
     router.push(toPageId)
+
+    utils.addClass(toPage, 'page-in-enter-active')
+    utils.addClass(fromPage, 'page-in-leave-active')
     
-    setTimeout(()=>{
+    clearTimeout(_pageTo.timeid)
+    _pageTo.timeid = setTimeout(()=>{
       router.currentRoute.meta.type = ''
       utils.removeClass(fromPage, 'page-in-leave-active')
       utils.removeClass(toPage, 'page-in-enter-active')
@@ -243,7 +262,8 @@ function _pageBack(toPageId, title){
     if(title){
       router.currentRoute.meta.title = title
     }
-    setTimeout(()=>{
+    clearTimeout(_pageBack.timeid)
+    _pageBack.timeid = setTimeout(()=>{
       utils.removeClass(fromPage, 'page-out-leave-active')
       utils.removeClass(toPage, 'page-out-enter-active')
     }, 600)

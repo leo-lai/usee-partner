@@ -27,7 +27,7 @@
           <div class="l-rebate-item l-border-b" v-for="item in list">
             <p><span class="mui-pull-right" :class="{'l-text-warn': item.rebateRecordState == 0, 'l-text-ok': item.rebateRecordState == 1}">{{rebateRecordState[item.rebateRecordState]}}</span>订单编号：{{item.orderCode}}</p>
             <p>购买时间：{{item.startDate}}</p>
-            <p>购买客户：{{item.userName}}</p>
+            <p>购买客户：{{item.userName || item.phoneNumber}}</p>
             <p>返利商品：{{item.goodsName}}</p>
             <p>返利金额：<span class="l-text-warn l-margin-r"><b class="l-icon">&#xe6cb;</b>{{(item.amount||0).toFixed(2)}}</span></p>
           </div>

@@ -12,7 +12,7 @@
           <input type="month" @change="sltMonth">
         </div>
         <div class="l-padding">
-          <p><span class="l-fs-xl" style="">+{{totalAmount}}</span></p>  
+          <p><span class="l-fs-xl" style="">+{{totalAmount | currency}}</span></p>  
         </div>
       </div>
       <table class="l-details-list l-fs-s">
@@ -29,11 +29,10 @@
             <td>
               <p>{{rebateRecordType[item.rebateRecordType]}}</p>
               <p>{{item.orderCode}}</p>
-              <p class="l-text-ok" v-if="item.rebateRecordState == 1">已返利</p>
-              <p class="l-text-warn" v-else>返利中</p>
+              <p :class="rebateRecordState[item.rebateRecordState].cls">{{rebateRecordState[item.rebateRecordState].name}}</p>
             </td>
             <td>{{item.startDate}}</td>
-            <td><span class="l-text-warn">+{{item.amount}}</span></td>
+            <td><span class="l-text-warn">+{{item.amount | currency}}</span></td>
             <!-- <td><a class="l-icon l-fs-l">&#xe71d;</a></td> -->
           </tr>
         </tbody>
@@ -56,6 +55,20 @@ export default {
   },
   data () {
     return {
+      rebateRecordState: {
+        '0': {
+          cls: 'l-text-warn',
+          name: '返利中'
+        },
+        '1': {
+          cls: 'l-text-ok',
+          name: '已返利'
+        },
+        '2': {
+          cls: 'l-text-error',
+          name: '返利失败'
+        }
+      },
       rebateRecordType: ['','商城销售返点','销售额外奖励','区域管理返点','集团分红','推荐区域返点','邮寄直接返点', '成本返利'],
       month,
       loading: false,
