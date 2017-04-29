@@ -106,10 +106,10 @@ const _server = {
     })
   },
   // 获取微信授权路径 url为绝对路径
-  getGrantUrl(url, params) {
+  getGrantUrl(url, params, scope='snsapi_base') {
     if (!url) return ''
     url = window.location.origin + utils.url.setArgs(url, params)
-    return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+    return `${shopHost}/get_wx_code?appid=${appid}&redirect_uri=${url}&scope=${scope}&state=partner`
   },
   // 获取jssdk授权配置 promise返回一个对象(wx or {})
   getWxConfig(url) {
@@ -500,13 +500,13 @@ const _server = {
     storage.local.remove('buy_slted_address')
 
     tipText && mui.toast(tipText)
-    // if (utils.device.isWechat) {
-    //   // 避免登录后跳转到登录页面
-    //   toUrl = toUrl === '/login' ? '/index' : toUrl
-    //   window.location.replace(_server.getGrantUrl('/login', { to: toUrl }))
-    // } else {
+    if (utils.device.isWechat) {
+      // 避免登录后跳转到登录页面
+      toUrl = toUrl === '/login' ? '/index' : toUrl
+      window.location.replace(_server.getGrantUrl('/login', { to: toUrl }))
+    } else {
       Vue._link(`/login?to=${toUrl}`, 'page-in')  
-    // }
+    }
   },
   // 检测登录
   checkLogin() {

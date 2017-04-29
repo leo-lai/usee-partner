@@ -111,7 +111,6 @@ export default {
         let toUrl = this.$route.query.to
         switch(toUrl){
           case '/login':
-          case '/register':
           case '/forgot':
             toUrl = '/index'
             break
