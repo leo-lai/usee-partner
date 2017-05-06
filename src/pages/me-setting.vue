@@ -8,8 +8,14 @@
       <div class="mui-content">
         <div class="l-margin-tb">
           <ul class="mui-table-view mui-table-view-chevron">
+            <li class="mui-table-view-cell" @click="$link('/me/pwd', 'page-in')">
+              <span class="mui-navigate-right">账号基本信息</span>
+            </li>
             <li class="mui-table-view-cell" @click="refreshUserInfo">
-              <span class="mui-navigate-right">刷新个人信息</span>
+              <p class="mui-navigate-right">同步微信信息<span class="l-text-gray l-fs-m">（头像和昵称）</span></p>
+            </li>
+            <li class="mui-table-view-cell" @click="$link('/me/pwd', 'page-in')">
+              <span class="mui-navigate-right">更改密码</span>
             </li>
             <li class="mui-table-view-cell" @click="notify">
               <span class="mui-navigate-right">接收消息通知</span>
@@ -35,6 +41,9 @@
         <h1 class="mui-title">关于U视一号</h1>
         <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
       </header>
+      <a class="mui-bar mui-bar-footer l-about-contact l-flex-vhc" href="http://p.qiao.baidu.com/cps/chat?siteId=10424067&userId=23235048">
+        <span><i class="l-icon l-fs-l">&#xe70d;</i>&nbsp;在线客服</span>
+      </a>
       <div class="mui-content">
         <div class="l-about-item">
           <h3 class="_tit">公司介绍</h3>
@@ -56,13 +65,11 @@
           </div>
         </div>
         <div class="l-about-item l-margin-t">
-          <h3 class="_tit">公司地址</h3>
-          <div class="_cont l-text-center">广州市天河区陶庄路五号空间3F009</div>
-        </div>
-        <div class="l-about-contact">
-          <h3>联系方式</h3>
-          <p>客服电话：020-85655842</p>
-          <p>服务时间：9:00-18:00</p>
+          <h3 class="_tit">联系我们</h3>
+          <div class="_cont l-text-center">
+            <div>广州市天河区陶庄路五号空间3F009</div>
+            <div>客服电话：020-85655842<br>服务时间：9:00-18:00</div>
+          </div>
         </div>
       </div>
     </div>
@@ -133,13 +140,15 @@ export default {
 </script>
 <style scoped lang="less">
 .l-about-contact{
-  background: linear-gradient(135deg, #1e1716, #4c3530, #403534); 
-  text-align: center; color: #fff; padding: 1rem 0;
+  /* background: #ff784e url(~assets/images/layout-003.jpg) no-repeat 50% 50%; background-size: 100% 100%; */
+  background: linear-gradient(135deg, #1e1716, #4c3530, #403534) no-repeat 50% 50%; background-size: 100% 100%;
+  text-align: center; color: #fff; /* padding: 1rem 0; */
   h3{margin-bottom: 0.375rem;}
   h3:after{
     content: ''; display: block; width: 1rem; margin:0.125rem auto 0; height: 0.1rem; background: #fff;
   }
   p{font-size: 0.75rem; text-align: left; width: 9rem; margin: auto;}
+  a{color: #fff;}
 }
 .l-about-item{
   overflow: hidden; background: #fff; padding: 0.5rem 0;

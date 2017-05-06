@@ -5,45 +5,44 @@
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
     <div class="mui-content">
-      <template v-if="userInfo.agentId == 2">
-        <div class="l-card-count l-text-center">
-          <p class="l-fs-s">&nbsp;累计有效客户</p>  
-          <p class="l-fs-xl">{{bindingNumber}}</p>
-        </div>
-        <div class="l-padding l-fs-s">
-          说明：客户扫码登录后即可绑定关系，有绑定关系的客户无法再次被绑定。
-        </div>
-        <div class="l-tab-customer l-bg-white">
-          <div class="_tit l-border-b l-flex-hvc l-sticky">
-            <div class="_item" :class="{'_active': tabIndex == 1}" @click="tabClick(1)">
-              <i class="l-icon l-text-ok">&#xe626; </i>成功绑定
-            </div>
-            <div class="_item" :class="{'_active': tabIndex == 0}" @click="tabClick(0)">
-              <i class="l-icon l-text-error">&#xe605; </i>未成功绑定
-            </div>
+      <div class="l-card-count l-text-center">
+        <p class="l-fs-s">&nbsp;累计有效客户</p>  
+        <p class="l-fs-xl">{{bindingNumber}}</p>
+      </div>
+      <div class="l-padding l-fs-s">
+        说明：客户扫码登录后即可绑定关系，有绑定关系的客户无法再次被绑定。
+      </div>
+      <div class="l-tab-customer l-bg-white">
+        <div class="_tit l-border-b l-flex-hvc l-sticky">
+          <div class="_item" :class="{'_active': tabIndex == 1}" @click="tabClick(1)">
+            <i class="l-icon l-text-ok">&#xe626; </i>成功绑定
           </div>
-          <div class="l-customer-list" v-show="tabIndex == 1">
-            <div class="_item l-border-b" v-for="item in list1">
-              <p>扫码用户：{{item.userName || item.phoneNumber}}</p>
-              <p>绑定时间：{{item.startDate}}</p>
-              <p>客户来源：{{item.describe}}</p>
-            </div>
-          </div>
-          <div class="l-customer-list" v-show="tabIndex == 0">
-            <div class="_item l-border-b" v-for="item in list0">
-              <p>扫码用户：{{item.userName || item.phoneNumber}}</p>
-              <p>绑定时间：{{item.startDate}}</p>
-              <p>失败原因：<!-- 该用户已经是其他小U店员的客户 -->{{item.describe}}</p>
-            </div>
+          <div class="_item" :class="{'_active': tabIndex == 0}" @click="tabClick(0)">
+            <i class="l-icon l-text-error">&#xe605; </i>未成功绑定
           </div>
         </div>
-        <infinite-loading :on-infinite="onInfinite" ref="infinite">
-          <div class="l-loading-inline" slot="spinner"><i class="mui-spinner"></i><span class="_txt">正在加载...</span></div>
-          <div class="l-text-gray l-fs-m" slot="no-results">没有相关的数据</div>
-          <div class="l-text-gray l-fs-m" slot="no-more">全部数据加载完毕</div>
-        </infinite-loading>
-      </template>
-      <not-u v-else></not-u>
+        <div class="l-customer-list" v-show="tabIndex == 1">
+          <div class="_item l-border-b" v-for="item in list1">
+            <!-- <p>扫码用户：{{item.userName || item.phoneNumber}}</p> -->
+            <p>恭喜您，有一位新用户加入</p>
+            <p>绑定时间：{{item.startDate}}</p>
+            <p>客户来源：{{item.describe}}</p>
+          </div>
+        </div>
+        <div class="l-customer-list" v-show="tabIndex == 0">
+          <div class="_item l-border-b" v-for="item in list0">
+            <!-- <p>扫码用户：{{item.userName || item.phoneNumber}}</p> -->
+            <p>绑定失败</p>
+            <p>绑定时间：{{item.startDate}}</p>
+            <p>失败原因：<!-- 该用户已经是其他小U店员的客户 -->{{item.describe}}</p>
+          </div>
+        </div>
+      </div>
+      <infinite-loading :on-infinite="onInfinite" ref="infinite">
+        <div class="l-loading-inline" slot="spinner"><i class="mui-spinner"></i><span class="_txt">正在加载...</span></div>
+        <div class="l-text-gray l-fs-m" slot="no-results">没有相关的数据</div>
+        <div class="l-text-gray l-fs-m" slot="no-more">全部数据加载完毕</div>
+      </infinite-loading>
     </div>
   </div>
 </template>

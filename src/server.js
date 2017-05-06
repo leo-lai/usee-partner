@@ -57,6 +57,15 @@ const _http = {
               mui.closePopups()
             }, 3000)
             reject(response.message)
+          } else if (response.resultCode === 4008) { // 微信授权异常
+            mui.hideWaiting()
+            mui.confirm('微信网页授权异常', '系统提示', ['返回', '重新授权'], (e)=>{
+              if(e.index == 1){
+                window.location.replace(_server.getGrantUrl(utils.url.setArgs(window.location.pathname, 'code', ''), '' , 'snsapi_userinfo'))
+              }else{
+                reject(response.message)
+              }
+            })
           } else if (response.resultCode !== 200) {
             mui.hideWaiting()
             mui.alert(response.message)
@@ -99,10 +108,21 @@ const _server = {
     return qrcode
   },
   getImageBase64(imagePath) {
-    return _http.post('/shopUsers/imageBase64', {path: imagePath}).then((response) => {
-      !response.data && (response.data = '')
-      response.data = 'data:image/jpg;base64,' + response.data
-      return response
+    return new Promise((resolve, reject)=>{
+      if(!imagePath) {
+        reject()
+        return 
+      }
+      if(/^data:image/i.test(imagePath)){
+        // resolve({data: imagePath})
+        reject()
+      }else{
+        _http.post('/shopUsers/imageBase64', {path: imagePath}).then((response) => {
+          !response.data && (response.data = '')
+          response.data = 'data:image/jpg;base64,' + response.data
+          resolve(response)
+        }).catch(reject)
+      } 
     })
   },
   // 获取微信授权路径 url为绝对路径
@@ -113,10 +133,10 @@ const _server = {
   },
   // 获取jssdk授权配置 promise返回一个对象(wx or {})
   getWxConfig(url) {
-    // if(!url){
-    //   url = utils.isWeb ? window.location.href : storage.session.get('wx_url')
-    // }
-    url = url || storage.session.get('wx_url') || window.location.href
+    url = url || (utils.device.isIos ? storage.session.get('wx_url') : window.location.href)
+
+    // mui.alert(url)
+    
     const self = this
     let config = {
       debug: false,
@@ -129,13 +149,12 @@ const _server = {
 
     let promise = new Promise((resolve, reject) => {
       if (!window.wx) {
-        // reject('找不到wx对象')
         window.wx = {
           _ready: false
         }
         resolve(window.wx)
       } else {
-        if (!utils.device.isWechat || window.wx._ready) {
+        if (!utils.device.isWechat || (utils.device.isIos && window.wx._ready)) {
           resolve(window.wx)
           return
         }
@@ -152,22 +171,48 @@ const _server = {
             console.log('微信JS-SDK权限验证失败', res)
             
             // 第一次权限验证失败再利用当前地址尝试一下
-            if (!window.wx._tried && res.errMsg === 'config:invalid signature' && url !== window.location.href) { 
-              window.wx._tried = true // 标识已经尝试验证过，不再尝试
+            if (res.errMsg === 'config:invalid signature' && !window.wx._try) {
               window.wx._ready = false
-              resolve(self.getWxConfig(window.location.href))
+              window.wx._try = true
+              resolve(self.getWxConfig(utils.device.isIos ? window.location.href : storage.session.get('wx_url')))
             } else {
               resolve(window.wx)
             }
           })
 
-          window.wx.ready((res) => {
-            console.log('微信JS-SDK权限验证成功', res)
+          window.wx.ready(() => {
             window.wx._ready = true
             resolve(window.wx)
+
+            // wx.checkJsApi({
+            //   jsApiList: config.jsApiList,
+            //   success: function(res) {
+            //     // 以键值对的形式返回，可用的api值true，不可用为false
+            //     // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+            //     let _isReady = true
+            //     Object.keys(res.checkResult).forEach((jsApiName)=>{
+            //       if(!res.checkResult[jsApiName]){
+            //         _isReady = false
+            //         return true
+            //       }
+            //     })
+            //     _isReady && console.log('微信JS-SDK权限验证成功')
+
+            //     window.wx._ready = _isReady
+            //     if(!_isReady && !window.wx._try){
+            //       window.wx._try = true
+            //       resolve(self.getWxConfig(utils.device.isIos ? window.location.href : storage.session.get('wx_url')))
+            //     }else{
+            //       resolve(window.wx)
+            //     }
+            //   },
+            //   fail() {
+            //     resolve(window.wx)
+            //   }
+            // })
           })
         }).catch(() => {
-          console.log('微信JS-SDK权限验证配置获取失败')
+          console.log('服务器返回微信JS-SDK配置失败')
           resolve(window.wx)
         })
       }
@@ -315,7 +360,7 @@ const _server = {
 
           resolve(wx, '微信分享授权成功')
         }else{
-          reject(wx, '微信分享授权失败')
+          utils.device.isWechat && reject(wx, '微信分享授权失败')
         }
       }).finally(() => {
         mui.hideWaiting()
@@ -503,7 +548,7 @@ const _server = {
     if (utils.device.isWechat) {
       // 避免登录后跳转到登录页面
       toUrl = toUrl === '/login' ? '/index' : toUrl
-      window.location.replace(_server.getGrantUrl('/login', { to: toUrl }))
+      window.location.replace(_server.getGrantUrl('/login', { to: toUrl }, 'snsapi_userinfo'))
     } else {
       Vue._link(`/login?to=${toUrl}`, 'page-in')  
     }

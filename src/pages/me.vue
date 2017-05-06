@@ -71,7 +71,7 @@ export default {
       const type = 'image/png'
       // let imageData = qrcodeCanvas.toDataURL(type).replace(type, 'image/octet-stream') || ''
       let imageData = qrcodeCanvas.toDataURL(type) || ''
-      this.$storage.local.set('qrcode_img', imageData, 1000*60*30)
+      this.$storage.local.set('qrcode_img', imageData, 1000*60*1)
       return imageData
     },
     createQrcode(imageData) {
@@ -120,7 +120,6 @@ export default {
     this.loading = true
     this.$server.user.getInfo().then(({data})=>{
       this.userInfo = data
-      console.log(this.userInfo)
 
       this.$server.user.getCount().then(({data})=>{
         this.userInfo = Object.assign({}, this.userInfo, data)
@@ -129,33 +128,29 @@ export default {
       this.$server.wxShare({
         title: '我为U视喷喷代言',
         desc: '喷3次，停3秒，眨3下，U视喷喷9秒靓眼。',
-        link: this.$server.getShopHost() + '/shop?_qruc=' + this.userInfo.userCode,
+        link: this.$server.getShopHost() + '/shop?_from=scan&_qruc=' + this.userInfo.userCode,
         imgUrl: this.userInfo.avatar
       }).catch((wx)=>{
-        // this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
-        //   if(e.index == 1){
-        //     window.location.reload()
-        //   }
-        // })
+        this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
+          if(e.index == 1){
+            this.$url.reload()
+          }
+        })
       })
 
-      setTimeout(()=>{
-        this.createQrcode(qrLogo)  
-      }, 0)
-
-      // if(this.$storage.local.get('qrcode_img')){
-      //   this.$nextTick(()=>{
-      //     this.qrcodeImg = this.$storage.local.get('qrcode_img')
-      //   })
-      // }else{
-      //   this.$server.getImageBase64(data.avatar).then(({data})=>{
-      //     qrLogo = data
-      //   }).finally(()=>{
-      //     setTimeout(()=>{
-      //       this.createQrcode(qrLogo)  
-      //     }, 600)
-      //   })
-      // }
+      if(this.$storage.local.get('qrcode_img')){
+        this.$nextTick(()=>{
+          this.qrcodeImg = this.$storage.local.get('qrcode_img')
+        })
+      }else{
+        this.$server.getImageBase64(data.avatar).then(({data})=>{
+          qrLogo = data
+        }).finally(()=>{
+          setTimeout(()=>{
+            this.createQrcode(qrLogo)  
+          }, 600)
+        })
+      }
     }).finally(()=>{
       this.loading = false
     })

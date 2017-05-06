@@ -45,9 +45,6 @@
           <span class="l-text-gray">{{agentInfo.area && agentInfo.area.join(',')}}</span>
         </li>
       </ul>
-      <div class="l-margin">
-        <button type="button" class="mui-btn l-btn-main" @click="$link('/me/pwd', 'page-in')">更改密码</button>
-      </div>
     </div>
   </div>
 </template>
@@ -56,15 +53,6 @@ export default {
   data () {
     return {
       agentInfo: {}
-    }
-  },
-  methods: {
-    logout() {
-      this.$mui.confirm('是否退出登录？', null, null, (e)=>{
-        if(e.index == 1){
-          this.$server.logout(false)
-        }
-      })
     }
   },
   created() {

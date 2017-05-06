@@ -102,6 +102,8 @@ export default {
         }
       }
 
+      this.formData.code = this.$route.query.code || ''
+
       this.submiting = true
       this.$mui.showWaiting()
       this.$server.login(this.loginType, this.formData).then(({data})=>{

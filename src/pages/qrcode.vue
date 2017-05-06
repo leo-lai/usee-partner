@@ -45,7 +45,7 @@ export default {
 
       const type = 'image/png'
       let imageData = qrcodeCanvas.toDataURL(type).replace(type, 'image/octet-stream') || ''
-      this.$storage.local.set('qrcode_img', imageData, 1000*60*30)
+      this.$storage.local.set('qrcode_img', imageData, 1000*60*1)
       return imageData
     },
     createQrcode(imageData) {
@@ -110,7 +110,7 @@ export default {
         }).catch((wx)=>{
           this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
             if(e.index == 1){
-              window.location.reload()
+              this.$url.reload()
             }
           })
         })

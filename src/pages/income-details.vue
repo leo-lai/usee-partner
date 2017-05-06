@@ -18,7 +18,7 @@
       <table class="l-details-list l-fs-s">
         <thead>
           <tr>
-            <th width="50">收益类型</th>
+            <th width="70">收益类型</th>
             <th width="30">时间</th>
             <th width="20">金额</th>
             <!-- <th width="10">查看</th> -->
@@ -26,10 +26,11 @@
         </thead>
         <tbody>
           <tr v-for="item in list">
-            <td>
-              <p>{{rebateRecordType[item.rebateRecordType]}}</p>
-              <p>{{item.orderCode}}</p>
-              <p :class="rebateRecordState[item.rebateRecordState].cls">{{rebateRecordState[item.rebateRecordState].name}}</p>
+            <td class="l-fs-xs" style="text-align:left;white-space: nowrap;">
+              <p>返利订单：{{item.orderCode}}</p>
+              <p>返利类型：{{rebateRecordType[item.rebateRecordType]}}</p>
+              <p v-if="item.area">返利区域：{{item.area}}</p>
+              <p>返利状态：<span :class="rebateRecordState[item.rebateRecordState].cls">{{rebateRecordState[item.rebateRecordState].name}}</span></p>
             </td>
             <td>{{item.startDate}}</td>
             <td><span class="l-text-warn">+{{item.amount | currency}}</span></td>
