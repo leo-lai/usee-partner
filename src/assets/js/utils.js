@@ -103,7 +103,7 @@ function _removeClass(elem, cls) {
 }
 
 /*========本地存储===========*/
-const STORE_PREFIX = '_usee_client_'
+const STORE_PREFIX = '_usee_partner_'
 export let storage = {
   getPrefix: () => STORE_PREFIX,
   cookies: {
@@ -286,8 +286,8 @@ export let utils = {
   isNumber(value) {
     return !isNaN( parseFloat(value) ) && isFinite( value )
   },
-  setTitle(title) {
-    document.title = title || 'Usee商城'
+	setTitle(title) {
+		document.title = title || 'Usee商城'
     // 判断是否为ios设备的微信浏览器，加载iframe来刷新title
     if (isWechat && isIphone) {
       let iframe = document.createElement('iframe')
@@ -303,7 +303,7 @@ export let utils = {
         document.body.appendChild(iframe)
       }, 650)
     }
-  },
+	},
   url: {
     getArgs(url) {
       if(typeof url !== 'string') url = window.location.href
@@ -380,12 +380,18 @@ export let utils = {
     replace() {}
   },
   image: {
-    thumb(src, width, height) {
+    thumb(src = '', width, height) {
       width = width || 320
-      if(!src){ 
+
+      if(!src){
         return ''
-        return `http://placeholder.qiniudn.com/${width}/ebebeb/cccccc` 
+        // return `https://placeholdit.imgix.net/~text?txtsize=20&bg=ffffff&txtclr=999&txt=image&w=${width}&h=${width}` 
       }
+
+      if(src.indexOf('clouddn.com') === -1){
+        return src
+      }
+
       // return src += '?imageMogr2/gravity/Center/crop/'+width+'x'+height;
       src += `?imageMogr2/format/jpg/interlace/1/quality/60/gravity/Center/thumbnail/${width}x`
       if(height){

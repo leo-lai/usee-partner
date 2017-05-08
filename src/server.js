@@ -848,10 +848,18 @@ const _server = {
 }
 Vue.mixin({
   created() {
-    // 判断设备
-    this.$device = utils.device
     // 接口
     this.$server = _server
+
+    // 小工具
+    this.$utils = utils
+
+    // url操作
+    this.$url = utils.url
+
+    // 设备判断 
+    this.$device = utils.device
+    
     // 本地缓存
     this.$storage = storage
   }

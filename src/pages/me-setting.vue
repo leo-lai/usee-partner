@@ -1,76 +1,37 @@
 <template>
-  <div class="l-page-group">
-    <div class="l-page">
-      <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
-        <h1 class="mui-title">{{ $route.meta.title }}</h1>
-        <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
-      </header>
-      <div class="mui-content">
-        <div class="l-margin-tb">
-          <ul class="mui-table-view mui-table-view-chevron">
-            <li class="mui-table-view-cell" @click="$link('/me/pwd', 'page-in')">
-              <span class="mui-navigate-right">账号基本信息</span>
-            </li>
-            <li class="mui-table-view-cell" @click="refreshUserInfo">
-              <p class="mui-navigate-right">同步微信信息<span class="l-text-gray l-fs-m">（头像和昵称）</span></p>
-            </li>
-            <li class="mui-table-view-cell" @click="$link('/me/pwd', 'page-in')">
-              <span class="mui-navigate-right">更改密码</span>
-            </li>
-            <li class="mui-table-view-cell" @click="notify">
-              <span class="mui-navigate-right">接收消息通知</span>
-              <div class="mui-switch" :class="{'mui-active': isNotice}">
-                <div class="mui-switch-handle"></div>
-              </div>
-            </li>
-          </ul>
+  <div class="l-page">
+    <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
+      <h1 class="mui-title">{{ $route.meta.title }}</h1>
+      <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
+    </header>
+    <div class="mui-content">
+      <div class="l-margin-tb">
+        <ul class="mui-table-view mui-table-view-chevron">
+          <li class="mui-table-view-cell" @click="$link('/me/info', 'page-in')">
+            <span class="mui-navigate-right">账号基本信息</span>
+          </li>
+          <li class="mui-table-view-cell" @click="refreshUserInfo">
+            <p class="mui-navigate-right">同步微信信息<span class="l-text-gray l-fs-m">（头像和昵称）</span></p>
+          </li>
+          <li class="mui-table-view-cell" @click="$link('/me/pwd', 'page-in')">
+            <span class="mui-navigate-right">更改密码</span>
+          </li>
+          <li class="mui-table-view-cell" @click="notify">
+            <span class="mui-navigate-right">接收消息通知</span>
+            <div class="mui-switch" :class="{'mui-active': isNotice}">
+              <div class="mui-switch-handle"></div>
+            </div>
+          </li>
+        </ul>
 
-          <ul class="mui-table-view mui-table-view-chevron l-margin-t">
-            <li class="mui-table-view-cell" @click.stop="$pageTo('#page-about', '关于U视一号')">
-              <span class="mui-navigate-right">关于U视一号</span>
-            </li>
-          </ul>
-          
-          <div class="l-margin-tb l-text-center l-padding-btn l-bg-white l-link" @click="logout">退出登录</div>
+        <ul class="mui-table-view mui-table-view-chevron l-margin-t">
+          <li class="mui-table-view-cell" @click="$link('/about', 'page-in')">
+            <span class="mui-navigate-right">关于U视一号</span>
+          </li>
+        </ul>
+        
+        <div class="l-margin-tb l-text-center l-padding-btn l-bg-white l-link" @click="logout">退出登录</div>
 
-        </div>
-      </div>
-    </div>
-    <div class="l-page" id="page-about">
-      <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
-        <h1 class="mui-title">关于U视一号</h1>
-        <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
-      </header>
-      <a class="mui-bar mui-bar-footer l-about-contact l-flex-vhc" href="http://p.qiao.baidu.com/cps/chat?siteId=10424067&userId=23235048">
-        <span><i class="l-icon l-fs-l">&#xe70d;</i>&nbsp;在线客服</span>
-      </a>
-      <div class="mui-content">
-        <div class="l-about-item">
-          <h3 class="_tit">公司介绍</h3>
-          <div class="_cont">
-            <p>“U视一号”创办于2016年12月，是由贵州U视一号生物科技有限公司运营的高端视力健康管理品牌。</p>
-            <p>U视一号”作为专业的视力健康管理及体验机构，拥有一个由国内各大中医药院校教授、博士组成的核心技术团队，他们以传统中医基础理论为指导，探寻中医明目古方古法，研究中医调理视力问题之机理，结合应用国际先进的视觉训练方式，融合视光学、经络腧穴学、心理学，项目经广东省中管局批准立项、历经3年临床双盲试验后成果成功推向市场。</p>
-            <p>经过多年的蕴育与成长，U视一号视力健康体验、改善及训练服务得到越来越多家长和会员的实践认可与口碑传播。</p>
-          </div>
-        </div>
-        <div class="l-about-item l-margin-t">
-          <h3 class="_tit">公司产品</h3>
-          <div class="_cont">
-            <ul>
-              <li>近视调理型产品：明目贴、体质贴</li>
-              <li>智慧护眼仪</li>
-              <li>眼贴系列</li>
-              <li>喷喷系列</li>
-            </ul>            
-          </div>
-        </div>
-        <div class="l-about-item l-margin-t">
-          <h3 class="_tit">联系我们</h3>
-          <div class="_cont l-text-center">
-            <div>广州市天河区陶庄路五号空间3F009</div>
-            <div>客服电话：020-85655842<br>服务时间：9:00-18:00</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -122,7 +83,8 @@ export default {
     if(this.$route.query.code && this.$device.isWechat){
       this.$mui.showWaiting('刷新中...')
       this.$server.user.resetWxInfo(this.$route.query.code).then(({data})=>{
-        this.$mui.toast('刷新个人信息成功')
+        this.$mui.toast('同步成功')
+        this.$storage.local.remove('qrcode_img')
         this.$link('/me', 'page-out', 'replace')
       }).finally(()=>{
         this.$mui.hideWaiting()
@@ -160,7 +122,7 @@ export default {
   }
   ._cont{
     margin: 0.75rem; font-size: 0.75rem;
-    p{text-indent: 2rem;}
+    p{text-indent: 2em;}
     ul{ list-style-type: decimal; padding: 0 0 0 1rem; }
   }
 }

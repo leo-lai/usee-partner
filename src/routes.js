@@ -16,6 +16,7 @@ import antifake       from './pages/antifake'
 import income         from './pages/income'
 import incomeDetails  from './pages/income-details'
 import stock          from './pages/stock'
+import about          from './pages/about'
 
 const routes = [
   { 
@@ -55,6 +56,11 @@ const routes = [
     path: '/forgot',
     meta: { title: '找回密码', auth: false},
     component: pwd
+  },
+  {
+    path: '/about',
+    meta: { title: '关于U视一号', auth: false},
+    component: about
   },
   {
     path: '/me/pwd',

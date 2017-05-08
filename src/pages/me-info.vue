@@ -20,9 +20,9 @@
           <span class="l-rest">联系方式</span>
           <span class="l-text-gray">{{agentInfo.phoneNumber}}</span>
         </li>
-        <li class="mui-table-view-cell l-flex-hc">
+        <li class="mui-table-view-cell l-flex-hc" @click="previewImage">
           <span class="l-rest">营业执照</span>
-          <img style="height: 3rem;" :src="agentInfo.businessLicenseImage" alt="">
+          <img style="height: 3rem;" :src="$utils.image.thumb(agentInfo.businessLicenseImage, 100, 100)" alt="">
         </li>
         <li class="mui-table-view-cell l-flex-hc">
           <span class="l-rest">所在单位</span>
@@ -53,6 +53,13 @@ export default {
   data () {
     return {
       agentInfo: {}
+    }
+  },
+  methods: {
+    previewImage() {
+      if(this.agentInfo.businessLicenseImage){
+        this.$server.previewImage([this.agentInfo.businessLicenseImage], 0)
+      }
     }
   },
   created() {

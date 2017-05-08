@@ -22,7 +22,7 @@ Vue.use(VueLazyload, {
 
 FastClick.attach(document.body)
 
-// // mui扩展插件
+// mui扩展插件
 mui.use = function(plugName){
   mui.isFunction(plugName) && plugName(mui, window, document, undefined)
 }
