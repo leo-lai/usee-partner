@@ -1,6 +1,6 @@
 <template>
   <div class="l-page">
-    <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
+    <header class="mui-bar mui-bar-nav l-black" v-if="!$device.isWechat">
       <h1 class="mui-title">{{ $route.meta.title }}</h1>
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
@@ -66,7 +66,7 @@ export default {
     },
     refreshUserInfo() {
       if(this.$device.isWechat){
-        window.location.replace(this.$server.getGrantUrl('/me/setting', '', 'snsapi_userinfo'))
+        window.location.replace(this.$server.getGrantUrl('/me/setting', undefined, 'snsapi_userinfo'))
       }else{
         this.$mui.toast('请使用微信浏览器打开')
       }

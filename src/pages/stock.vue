@@ -1,11 +1,11 @@
 <template>
   <div class="l-page">
-    <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
+    <header class="mui-bar mui-bar-nav l-black" v-if="!$device.isWechat">
       <h1 class="mui-title">{{ $route.meta.title }}</h1>
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
     <footer class="mui-bar mui-bar-footer l-flex-hc l-transparent">
-      <a class="mui-btn l-btn-main" href="tel:020-85655842"><i class="l-icon l-margin-r-s">&#xe649;</i>联系采购客服</a>
+      <a class="mui-btn l-btn-main" href="tel:400-180-6900"><i class="l-icon l-margin-r-s">&#xe649;</i>联系采购客服</a>
     </footer>
     <div class="mui-content">
       <!-- 库存列表 -->

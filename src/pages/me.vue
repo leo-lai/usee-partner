@@ -1,6 +1,6 @@
 <template>
   <div class="l-page">
-    <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
+    <header class="mui-bar mui-bar-nav l-black" v-if="!$device.isWechat">
       <h1 class="mui-title">{{ $route.meta.title }}</h1>
     </header>
     <nav-tab></nav-tab>
@@ -32,7 +32,7 @@
           <div class="canvas" ref="qrcode">
             <qrcanvas :options="qrcodeObj"></qrcanvas>
           </div>
-          <img :src="qrcodeImg" alt="">  
+          <img :src="qrcodeImg" alt="">
         </div>
         <!-- <p class="l-text-center l-margin-t">U视一号<i class="l-text-warn">™</i></p> -->
         <p class="l-text-gray l-fs-s l-text-center l-margin-t">长按保存或点击右上角分享</p>
@@ -79,8 +79,8 @@ export default {
       let bgImg = new Image()
       bgImg.onload = function(){
         self.qrcodeObj = Object.assign({}, self.qrcodeObj, {
-          data: self.$server.getShopHost() + '/shop?_qruc=' + self.userInfo.userCode,
-          cellSize: 4,
+          data: self.$server.getShopHost() + '/shop?_from=scan&_qruc=' + self.userInfo.userCode,
+          cellSize: 5,
           correctLevel: 'H',
           typeNumber: 2,
           foreground: [
@@ -101,7 +101,7 @@ export default {
             fontStyle: 'bold',
             color: '#f35b54',
             text: 'U视一号',
-            margin: 4
+            margin: 3
           },
           effect: {
             key: 'round', // image liquid round
@@ -130,7 +130,7 @@ export default {
         desc: '喷3次，停3秒，眨3下，U视喷喷9秒靓眼。',
         link: this.$server.getShopHost() + '/shop?_from=scan&_qruc=' + this.userInfo.userCode,
         imgUrl: this.userInfo.avatar
-      }).catch((wx)=>{
+      }).catch(()=>{
         this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
           if(e.index == 1){
             this.$url.reload()
@@ -165,7 +165,7 @@ export default {
   ul{padding: 0 0.75rem 0 1.75rem;list-style-type: decimal;}
 }
 .l-qrcode-img{
-  width: 10rem; height: 10rem; margin:0 auto; text-align: center;
+  width: 12rem; height: 12rem; margin:0 auto; text-align: center;
   .canvas{display: none;}   
 }
 .l-qrcode-img img{width: 100%; height: 100%;}

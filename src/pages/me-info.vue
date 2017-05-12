@@ -1,6 +1,6 @@
 <template>
   <div class="l-page">
-    <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
+    <header class="mui-bar mui-bar-nav l-black" v-if="!$device.isWechat">
       <h1 class="mui-title">{{ $route.meta.title }}</h1>
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
@@ -8,7 +8,7 @@
       <div class="l-mark l-text-center">
         <img src="~assets/images/layout-007.jpg" alt="">
         <div class="_inner l-flex-vhc">
-          <a href="tel:020-85655842"><i class="l-icon l-margin-r-s">&#xe649;</i>修改信息请联系客服</a>
+          <a href="tel:400-180-6900"><i class="l-icon l-margin-r-s">&#xe649;</i>修改信息请联系客服</a>
         </div>
       </div>
       <ul class="mui-table-view">

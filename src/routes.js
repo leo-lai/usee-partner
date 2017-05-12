@@ -21,11 +21,8 @@ import about          from './pages/about'
 const routes = [
   { 
     path: '/', 
-    redirect: '/index'
-  },
-  { 
-    path: '/index.html', 
-    redirect: '/index'
+    meta: { title: '首页', mainPage: true },
+    component: index
   },
   {
     path: '/index',

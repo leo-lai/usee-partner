@@ -209,7 +209,7 @@ router.onReady(()=>{
     mui(document).on('click', '._nav-reload', function(e){
       utils.url.reload()
     })
-  }, 120) 
+  }, 60) 
 })
 
 Vue._router = router

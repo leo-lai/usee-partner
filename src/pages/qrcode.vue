@@ -1,6 +1,6 @@
 <template>
   <div class="l-page">
-    <header class="mui-bar mui-bar-nav l-black" v-if="!$mui.os.wechat">
+    <header class="mui-bar mui-bar-nav l-black" v-if="!$device.isWechat">
       <h1 class="mui-title">{{ $route.meta.title }}</h1>
       <a class="mui-icon mui-icon-arrowleft mui-pull-left _nav-back"></a>
     </header>
@@ -19,7 +19,9 @@
             <div class="canvas" ref="qrcode">
               <qrcanvas :options="qrcodeObj"></qrcanvas>
             </div>
-            <img :src="qrcodeImg" alt="">  
+            <a :href="qrcodeImg">
+              <img :src="qrcodeImg" alt="">
+            </a>
           </div>
           <!-- <p class="l-text-center l-margin-t">U视一号<i class="l-text-warn">™</i></p> -->
         </div>
@@ -53,7 +55,7 @@ export default {
       let bgImg = new Image()
       bgImg.onload = function(){
         self.qrcodeObj = Object.assign({}, self.qrcodeObj, {
-          data: self.$server.getHost() + '/shop?_qruc=' + self.userInfo.userCode,
+          data: self.$server.getShopHost() + '/shop?_qruc=' + self.userInfo.userCode,
           cellSize: 4,
           correctLevel: 'H',
           typeNumber: 2,
@@ -105,7 +107,7 @@ export default {
         this.$server.wxShare({
           title: '我为U视喷喷代言',
           desc: '喷3次，停3秒，眨3下，U视喷喷9秒靓眼。',
-          link: this.$server.getHost() + '/shop?_qruc=' + this.userInfo.userCode,
+          link: this.$server.getShopHost() + '/shop?_qruc=' + this.userInfo.userCode,
           imgUrl: this.userInfo.avatar
         }).catch((wx)=>{
           this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
