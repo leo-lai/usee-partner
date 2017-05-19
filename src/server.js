@@ -636,6 +636,15 @@ const _server = {
       return response
     })
   },
+  getIncomeDetails2(month = '', page = 1, rows = 10) {
+    return _http.post('/agentInfo/remittanceList', {
+      month, page, rows
+    }).then((response) => {
+      !response.data && (response.data = {})
+      response.data.rows = rows
+      return response
+    })
+  },
   getStock() {
     return _http.post('/agentInfo/residueStock').then((response) => {
       !response.data && (response.data = [])

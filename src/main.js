@@ -11,7 +11,7 @@ import routes from './routes'
 import App from './App'
 
 Vue.filter('currency', (value = '')=>{
-  let number = +(value+'').replace(/[^\d.]/g, '')
+  let number = +(value+'').replace(/[^-\d.]/g, '')
   number = isNaN(number) ? 0 : number
   return number.toMoney(2)
 })

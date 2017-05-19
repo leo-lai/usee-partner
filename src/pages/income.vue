@@ -30,13 +30,25 @@
 
       <div class="l-income-month l-flex-hc l-link-arrow" @click="$link('/income/details')">
         <div class="l-border-r _month">
-          <b>{{month}}</b>月收益
+          <b>{{month}}</b>月返利
         </div>
         <div class="l-rest l-margin-l">
           <b class="l-text-warn l-fs-l">+{{income.amount | currency}}</b>
         </div>
         <div class="l-text-gray">
-          <span class="l-fs-s">收益明细</span>
+          <span class="l-fs-s">返利明细</span>
+        </div>
+      </div>
+
+      <div class="l-income-month l-flex-hc l-link-arrow" @click="$link('/income/details2')">
+        <div class="l-border-r _month">
+          <b>{{month}}</b>月返现
+        </div>
+        <div class="l-rest l-margin-l">
+          <b class="l-text-warn l-fs-l">+{{income.remittanceAmount | currency}}</b>
+        </div>
+        <div class="l-text-gray">
+          <span class="l-fs-s">返现明细</span>
         </div>
       </div>
 

@@ -16,7 +16,7 @@
             <i class="mui-icon mui-icon-gear"></i>
           </div>
         </div>
-        <div class="l-flex-hc l-text-center" style="padding: 1.6rem 0;">
+        <!-- <div class="l-flex-hc l-text-center" style="padding: 1.6rem 0;">
           <div class="l-rest l-border-r">
             <p class="l-fs-l">{{userInfo.account | currency}} 元</p>
             <p class="l-fs-s">账户余额</p>
@@ -25,7 +25,7 @@
             <p class="l-fs-l">{{userInfo.bindingNumber || 0}}</p>
             <p class="l-fs-s">我的客户</p>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="l-bg-white l-margin-tb" style="padding:2rem 0;">
         <div class="l-qrcode-img">

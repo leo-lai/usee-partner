@@ -15,6 +15,7 @@ import withdrawals    from './pages/withdrawals'
 import antifake       from './pages/antifake'
 import income         from './pages/income'
 import incomeDetails  from './pages/income-details'
+import incomeDetails2 from './pages/income-details2'
 import stock          from './pages/stock'
 import about          from './pages/about'
 
@@ -116,13 +117,18 @@ const routes = [
   },
   {
     path: '/income',
-    meta: { title: '累计收益'},
+    meta: { title: '总收益'},
     component: income
   },
   {
     path: '/income/details',
-    meta: { title: '累计收益'},
+    meta: { title: '累计返利'},
     component: incomeDetails
+  },
+  {
+    path: '/income/details2',
+    meta: { title: '累计返现'},
+    component: incomeDetails2
   },
   {
     path: '/stock',
