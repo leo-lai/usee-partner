@@ -82,7 +82,7 @@ export default {
           data: self.$server.getShopHost() + '/shop?_from=scan&_qruc=' + self.userInfo.userCode,
           cellSize: 5,
           correctLevel: 'H',
-          typeNumber: 2,
+          typeNumber: 5,
           foreground: [
             {style: '#1e1716'},
             // outer squares of the positioner
@@ -114,46 +114,49 @@ export default {
         })
       }
       bgImg.src = imageData
+    },
+    getUserInfo() {
+      this.loading = true
+      this.$server.user.getInfo().then(({data})=>{
+        this.userInfo = data
+
+        this.$server.user.getCount().then(({data})=>{
+          this.userInfo = Object.assign({}, this.userInfo, data)
+        })
+        // 分享授权
+        this.$server.wxShare({
+          title: '我为U视喷喷代言',
+          desc: '喷3次，停3秒，眨3下，U视喷喷9秒靓眼。',
+          link: this.$server.getShopHost() + '/shop?_from=scan&_qruc=' + this.userInfo.userCode,
+          imgUrl: this.userInfo.avatar
+        }).catch(()=>{
+          this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
+            if(e.index == 1){
+              this.$url.reload()
+            }
+          })
+        })
+
+        if(this.$storage.local.get('qrcode_img')){
+          this.$nextTick(()=>{
+            this.qrcodeImg = this.$storage.local.get('qrcode_img')
+          })
+        }else{
+          this.$server.getImageBase64(data.avatar).then(({data})=>{
+            qrLogo = data
+          }).finally(()=>{
+            setTimeout(()=>{
+              this.createQrcode(qrLogo)  
+            }, 600)
+          })
+        }
+      }).finally(()=>{
+        this.loading = false
+      })
     }
   },
   created() {
-    this.loading = true
-    this.$server.user.getInfo().then(({data})=>{
-      this.userInfo = data
-
-      this.$server.user.getCount().then(({data})=>{
-        this.userInfo = Object.assign({}, this.userInfo, data)
-      })
-      // 分享授权
-      this.$server.wxShare({
-        title: '我为U视喷喷代言',
-        desc: '喷3次，停3秒，眨3下，U视喷喷9秒靓眼。',
-        link: this.$server.getShopHost() + '/shop?_from=scan&_qruc=' + this.userInfo.userCode,
-        imgUrl: this.userInfo.avatar
-      }).catch(()=>{
-        this.$mui.confirm('微信分享授权失败，请刷新重试', '', ['返回', '刷新'], (e)=>{
-          if(e.index == 1){
-            this.$url.reload()
-          }
-        })
-      })
-
-      if(this.$storage.local.get('qrcode_img')){
-        this.$nextTick(()=>{
-          this.qrcodeImg = this.$storage.local.get('qrcode_img')
-        })
-      }else{
-        this.$server.getImageBase64(data.avatar).then(({data})=>{
-          qrLogo = data
-        }).finally(()=>{
-          setTimeout(()=>{
-            this.createQrcode(qrLogo)  
-          }, 600)
-        })
-      }
-    }).finally(()=>{
-      this.loading = false
-    })
+    this.getUserInfo()
   }
 }
 </script>
@@ -165,8 +168,12 @@ export default {
   ul{padding: 0 0.75rem 0 1.75rem;list-style-type: decimal;}
 }
 .l-qrcode-img{
-  width: 12rem; height: 12rem; margin:0 auto; text-align: center;
-  .canvas{display: none;}   
+  width: 12rem; height: 12rem; margin:0 auto; text-align: center; position: relative; z-index: 1;
+  .canvas{display: none;}
+  img{width: 100%; height: 100%;}
 }
-.l-qrcode-img img{width: 100%; height: 100%;}
+.l-qrcode-img:after{
+  content: '二维码生成中...'; position: absolute; left:0; right: 0; text-align: center; top: 50%; margin-top: -0.3rem;
+  font-size: 0.6rem; color: #999; z-index: -1;
+}
 </style>

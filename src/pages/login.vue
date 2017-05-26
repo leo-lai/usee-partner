@@ -112,6 +112,7 @@ export default {
         this.$storage.local.set('userInfo', data)
         let toUrl = this.$route.query.to
         switch(toUrl){
+          case '/':
           case '/login':
           case '/forgot':
             toUrl = '/index'
