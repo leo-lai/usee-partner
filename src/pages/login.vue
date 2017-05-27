@@ -110,7 +110,7 @@ export default {
         this.$mui.toast('登录成功')
         this.$storage.local.set('sessionId', data.sessionId)
         this.$storage.local.set('userInfo', data)
-        let toUrl = this.$route.query.to
+        let toUrl = this.$route.query.to || '/'
         switch(toUrl){
           case '/':
           case '/login':

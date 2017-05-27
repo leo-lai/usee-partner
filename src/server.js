@@ -573,7 +573,7 @@ const _server = {
 
         window.location.replace(_server.getGrantUrl(`/login?to=${toUrl}`, undefined , 'snsapi_userinfo'))
       } else {
-        Vue._link(`/login?to=${toUrl}`, 'page-in')
+        Vue._link(`/login?to=${toUrl}`, 'page-in', 'replace')
       }
 
       return true
